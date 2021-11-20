@@ -167,6 +167,13 @@
               </div>
             </li>
             <li class="nav-item">
+              <ul class="navbar-nav mr-lg-2">
+              <b><p style="color:black; font-family:sans-serif;" >Date : <span id="tanggalwaktu"></span></p></b>
+              <script>
+              var dt = new Date();
+              document.getElementById("tanggalwaktu").innerHTML = (("0"+dt.getDate()).slice(-2)) +"."+ (("0"+(dt.getMonth()+1)).slice(-2)) +"."+ (dt.getFullYear()) +" "+ (("0"+dt.getHours()).slice(-2)) +":"+ (("0"+dt.getMinutes()).slice(-2));
+              </script>
+              </ul>
             </li>
           </ul>
         </div>
