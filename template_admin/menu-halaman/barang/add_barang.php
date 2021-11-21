@@ -192,14 +192,6 @@
                     <div class="row">
                       <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">ID Produk</label>
-                          <div class="col-sm-9">
-                            <input type="text" class="form-control" placeholder="ID Produk"/>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Nama Produk</label>
                           <div class="col-sm-9">
                             <input type="text" class="form-control" placeholder="Nama Produk"/>
@@ -249,14 +241,6 @@
                           <label class="col-sm-3 col-form-label">ID Kategori</label>
                           <div class="col-sm-9">
                             <input type="text" class="form-control" placeholder="ID Kategori"/>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Rating</label>
-                          <div class="col-sm-9">
-                            <input type="text" class="form-control" placeholder="Rating"/>
                           </div>
                         </div>
                       </div>
