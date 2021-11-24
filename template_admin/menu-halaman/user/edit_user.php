@@ -31,7 +31,7 @@
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="../../index.html">
+          <a class="nav-link" href="../../index.php">
             <i class="mdi mdi-view-quilt menu-icon"></i>
             <span class="menu-title">Dashboard</span>
           </a>
@@ -50,9 +50,9 @@
           </a>
           <div class="collapse" id="ui-basic">
             <ul class="nav flex-column sub-menu">
-              <li class="nav-item"> <a class="nav-link" href="../barang/add_barang.html">Tambah</a></li>
-              <li class="nav-item"> <a class="nav-link" href="../barang/list_barang.html">Lihat</a></li>
-              <li class="nav-item"> <a class="nav-link" href="../barang/z_list_caraousel.html">Carousel</a></li>
+              <li class="nav-item"> <a class="nav-link" href="../barang/add_barang.php">Tambah</a></li>
+              <li class="nav-item"> <a class="nav-link" href="../barang/list_barang.php">Lihat</a></li>
+              <li class="nav-item"> <a class="nav-link" href="../barang/z_list_caraousel.php">Carousel</a></li>
             </ul>
           </div>
         </li>
@@ -65,9 +65,9 @@
           </a>
           <div class="collapse" id="ui-basic2">
             <ul class="nav flex-column sub-menu">
-              <li class="nav-item"> <a class="nav-link" href="../user/add_user.html">Tambah</a></li>
-              <li class="nav-item"> <a class="nav-link" href="../user/list_user.html">Lihat</a></li>
-              <li class="nav-item"> <a class="nav-link" href="../user/z_list_blacklist.html">BlackList</a></li>
+              <li class="nav-item"> <a class="nav-link" href="../user/add_user.php">Tambah</a></li>
+              <li class="nav-item"> <a class="nav-link" href="../user/list_user.php">Lihat</a></li>
+              <li class="nav-item"> <a class="nav-link" href="../user/z_list_blacklist.php">BlackList</a></li>
             </ul>
           </div>
         </li>
@@ -78,7 +78,7 @@
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="../admin/list_admin.html">
+          <a class="nav-link" href="../admin/list_admin.php">
             <i class="mdi mdi-clipboard-account menu-icon"></i>
             <span class="menu-title">Menu Admin</span>
             <div class="badge badge-info badge-pill"></div>
@@ -93,8 +93,8 @@
           </a>
           <div class="collapse" id="ui-basic3">
             <ul class="nav flex-column sub-menu">
-              <li class="nav-item"> <a class="nav-link" href="../laporan/rcd_keuntungan.html">Record Keuntungan</a></li>
-              <li class="nav-item"> <a class="nav-link" href="../laporan/rcd_penjualan.html">Record Penjualan</a></li>
+              <li class="nav-item"> <a class="nav-link" href="../laporan/rcd_keuntungan.php">Record Keuntungan</a></li>
+              <li class="nav-item"> <a class="nav-link" href="../laporan/rcd_penjualan.php">Record Penjualan</a></li>
             </ul>
           </div>
         </li>
@@ -107,8 +107,8 @@
           </a>
           <div class="collapse" id="ui-basic4">
             <ul class="nav flex-column sub-menu">
-              <li class="nav-item"> <a class="nav-link" href="../pesanan/list_pesanan.html">Pesanan</a></li>
-              <li class="nav-item"> <a class="nav-link" href="../transaksi/list_transaksi.html">Transaksi</a></li>
+              <li class="nav-item"> <a class="nav-link" href="../pesanan/list_pesanan.php">Pesanan</a></li>
+              <li class="nav-item"> <a class="nav-link" href="../transaksi/list_transaksi.php">Transaksi</a></li>
             </ul>
           </div>
         </li>
@@ -118,7 +118,7 @@
           <span></span>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="pages/samples/login-2.html">
+          <a class="nav-link" href="pages/samples/login-2.php">
             <i class="mdi mdi mdi-logout menu-icon"></i>
             <span class="menu-title">Keluar</span>
             <div class="badge badge-info badge-pill"></div>
@@ -137,8 +137,8 @@
             <span class="mdi mdi-menu"></span>
           </button>
           <div class="navbar-brand-wrapper">
-            <a class="navbar-brand brand-logo" href="index.html"><img src="../../images/logo_poloskuy1.png" alt="logo"/></a>
-            <a class="navbar-brand brand-logo-mini" href="index.html"><img src="../../images/logo_poloskuy2.png" alt="logo"/></a>
+            <a class="navbar-brand brand-logo" href="index.php"><img src="../../images/logo_poloskuy1.png" alt="logo"/></a>
+            <a class="navbar-brand brand-logo-mini" href="index.php"><img src="../../images/logo_poloskuy2.png" alt="logo"/></a>
           </div>
           <h4 class="font-weight-bold mb-0 d-none d-md-block mt-1">Welcome Home Admin</h4>
           <ul class="navbar-nav navbar-nav-right">
@@ -273,8 +273,8 @@
                         </div>
                       </div>
                       <div class="mt-3">
-                        <a class="btn btn-dark font-weight-medium auth-form-btn" href="../user/list_user.html">SIMPAN</a>
-                        <a class="btn btn-light font-weight-medium auth-form-btn" href="../user/list_user.html">Batal</a>
+                        <a class="btn btn-dark font-weight-medium auth-form-btn" href="../user/list_user.php">SIMPAN</a>
+                        <a class="btn btn-light font-weight-medium auth-form-btn" href="../user/list_user.php">Batal</a>
                       </div>
                     </form>
                   </div>
