@@ -7,8 +7,8 @@ class ClassUpload extends fitur {
     public function upFoto($tabel,$nama,$size,$asal,$format,$id) {
         $width_size = 130;
         if ($format=="jpg" OR $format=="jpeg") {
-            move_uploaded_file($asal, "../../images/db/barang/".$nama);
-            $asli    ="../../images/db/barang/".$nama;
+            move_uploaded_file($asal, "../../images/db/$tabel/".$nama);
+            $asli    ="../../images/db/$tabel/".$nama;
             $nama_baru    =$nama.$nama;
             $gambar_asli    = imagecreatefromjpeg ($asli);
             $lebar_asli      = imageSX($gambar_asli);
@@ -35,8 +35,8 @@ class ClassUpload extends fitur {
         }
         
         else if ($format=="png") {
-            move_uploaded_file($asal, "../../images/db/barang/".$nama);
-            $asli ="../../images/db/barang".$nama;
+            move_uploaded_file($asal, "../../images/db/$tabel/".$nama);
+            $asli    ="../../images/db/$tabel/".$nama;
             $nama_baru    =$nama.$nama;
             $gambar_asli      = imagecreatefrompng ($asli);
             $lebar_asli     = imageSX($gambar_asli);
