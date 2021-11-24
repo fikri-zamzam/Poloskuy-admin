@@ -23,16 +23,23 @@ if(isset($_POST["edit"])){
   
 
   
-   if ($edit){
-    $upload = $img->upFoto('produk',$imgNama,$size,$asal,$format,"id_produk='$id'");
-      if($upload){
-      ?>
-      <script>
-        alert("Selamat <?=$nama?> berhasil diubah");
-        location.href = "list_barang.php";
-      </script>
-      <?php
-      }
+  if ($edit){
+    $upload = (($imgNama == "") ? "aman" : $img->upFoto('produk',$imgNama,$size,$asal,$format,"id_produk='$id'") );
+    if($upload || $upload == "aman") {
+    ?>
+    <script>
+      alert("Selamat data Produk <?=$nama?> berhasil di ubah");
+      location.href = "list_barang.php";
+    </script>
+    <?php
+    } else if(!$upload){
+    ?>
+    <script>
+      alert("Proses Upload gagal");
+    </script>
+    <?php
+    }
+
   } else {
     ?>
     <script>

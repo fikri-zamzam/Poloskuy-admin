@@ -264,7 +264,7 @@ $db = new fitur();
                             <?= $res["rating"] ?>
                           </td>
                           <td style="text-align: center;">
-                            <img src="../../images/db/barang/<?= $res["img_resize"] ?>">
+                            <img src="../../images/db/produk/<?= $res["img_resize"] ?>">
                           </td>
                           <td style="text-align:center;">
                             <div class="mt">
