@@ -1,3 +1,61 @@
+<?php 
+require("../../system/func_web.php");
+require("../../system/upload-oop.php");
+$db = new fitur();
+$img = new ClassUpload();
+
+$id = $_GET["id"];
+if(isset($_POST["edit"])){
+   $id   = $db->penjernih($_POST["id_pdk"]);
+   $nama = $db->penjernih($_POST["nama_pdk"]);
+   $harga = $db->penjernih($_POST["harga_pdk"]);
+   $stok = $db->penjernih($_POST["stok_pdk"]);
+   $tgl = $db->penjernih($_POST["tgl_masuk"]);
+   $desc = $db->penjernih($_POST["deskripsi"]);
+   $ktgr = $db->penjernih($_POST["kategori"]);
+  //  $foto = $db->penjernih($_POST[""]);
+  $imgNama = $_FILES['imgBarang']['name'];
+  $size    = $_FILES['imgBarang']['size']; 
+  $asal    = $_FILES['imgBarang']['tmp_name'];
+  $format  = pathinfo($imgNama, PATHINFO_EXTENSION);
+
+  $edit = $db->update('produk',['nama_produk'=>$nama,'harga'=>$harga,'stok'=>$stok,'tgl_masuk'=>$tgl,'deskripsi'=>$desc,'id_kategori'=>$ktgr],"id_produk='$id'");
+  
+
+  
+   if ($edit){
+    $upload = $img->upFoto('produk',$imgNama,$size,$asal,$format,"id_produk='$id'");
+      if($upload){
+      ?>
+      <script>
+        alert("Selamat <?=$nama?> berhasil diubah");
+        location.href = "list_barang.php";
+      </script>
+      <?php
+      }
+  } else {
+    ?>
+    <script>
+      alert("Maaf <?=$nama?> Gagal diubah");
+      
+    </script>
+    <?php
+  }
+}
+
+
+$ambil = $db->getData("produk","*","id_produk='$id'");
+foreach ($ambil as $key => $edt) {
+  $id_pdk = $edt["id_produk"];
+  $nama = $edt["nama_produk"];
+  $harga = $edt["harga"];
+  $stok = $edt["stok"];
+  $tgl = $edt["tgl_masuk"];
+  $desc = $edt["deskripsi"];
+  $ktgr = $edt["id_kategori"];
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,14 +82,14 @@
     
     <nav class="sidebar sidebar-offcanvas" id="sidebar">
       <ul class="nav">
-        
+
         <li class="nav-item sidebar-category">
           <p>Navigation</p>
           <span></span>
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="../../index.html">
+          <a class="nav-link" href="../../index.php">
             <i class="mdi mdi-view-quilt menu-icon"></i>
             <span class="menu-title">Dashboard</span>
           </a>
@@ -50,9 +108,9 @@
           </a>
           <div class="collapse" id="ui-basic">
             <ul class="nav flex-column sub-menu">
-              <li class="nav-item"> <a class="nav-link" href="../barang/add_barang.html">Tambah</a></li>
-              <li class="nav-item"> <a class="nav-link" href="../barang/list_barang.html">Lihat</a></li>
-              <li class="nav-item"> <a class="nav-link" href="../barang/z_list_caraousel.html">Carousel</a></li>
+              <li class="nav-item"> <a class="nav-link" href="../barang/add_barang.php">Tambah</a></li>
+              <li class="nav-item"> <a class="nav-link" href="../barang/list_barang.php">Lihat</a></li>
+              <li class="nav-item"> <a class="nav-link" href="../barang/z_list_caraousel.php">Carousel</a></li>
             </ul>
           </div>
         </li>
@@ -65,9 +123,9 @@
           </a>
           <div class="collapse" id="ui-basic2">
             <ul class="nav flex-column sub-menu">
-              <li class="nav-item"> <a class="nav-link" href="../user/add_user.html">Tambah</a></li>
-              <li class="nav-item"> <a class="nav-link" href="../user/list_user.html">Lihat</a></li>
-              <li class="nav-item"> <a class="nav-link" href="../user/z_list_blacklist.html">BlackList</a></li>
+              <li class="nav-item"> <a class="nav-link" href="../user/add_user.php">Tambah</a></li>
+              <li class="nav-item"> <a class="nav-link" href="../user/list_user.php">Lihat</a></li>
+              <li class="nav-item"> <a class="nav-link" href="../user/z_list_blacklist.php">BlackList</a></li>
             </ul>
           </div>
         </li>
@@ -78,7 +136,7 @@
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="../admin/list_admin.html">
+          <a class="nav-link" href="../admin/list_admin.php">
             <i class="mdi mdi-clipboard-account menu-icon"></i>
             <span class="menu-title">Menu Admin</span>
             <div class="badge badge-info badge-pill"></div>
@@ -93,8 +151,8 @@
           </a>
           <div class="collapse" id="ui-basic3">
             <ul class="nav flex-column sub-menu">
-              <li class="nav-item"> <a class="nav-link" href="../laporan/rcd_keuntungan.html">Record Keuntungan</a></li>
-              <li class="nav-item"> <a class="nav-link" href="../laporan/rcd_penjualan.html">Record Penjualan</a></li>
+              <li class="nav-item"> <a class="nav-link" href="../laporan/rcd_keuntungan.php">Record Keuntungan</a></li>
+              <li class="nav-item"> <a class="nav-link" href="../laporan/rcd_penjualan.php">Record Penjualan</a></li>
             </ul>
           </div>
         </li>
@@ -107,8 +165,8 @@
           </a>
           <div class="collapse" id="ui-basic4">
             <ul class="nav flex-column sub-menu">
-              <li class="nav-item"> <a class="nav-link" href="../pesanan/list_pesanan.html">Pesanan</a></li>
-              <li class="nav-item"> <a class="nav-link" href="../transaksi/list_transaksi.html">Transaksi</a></li>
+              <li class="nav-item"> <a class="nav-link" href="../pesanan/list_pesanan.php">Pesanan</a></li>
+              <li class="nav-item"> <a class="nav-link" href="../transaksi/list_transaksi.php">Transaksi</a></li>
             </ul>
           </div>
         </li>
@@ -118,13 +176,13 @@
           <span></span>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="pages/samples/login-2.html">
+          <a class="nav-link" href="pages/samples/login-2.php">
             <i class="mdi mdi mdi-logout menu-icon"></i>
             <span class="menu-title">Keluar</span>
             <div class="badge badge-info badge-pill"></div>
           </a>
         </li>
-        
+
       </ul>
     </nav>
     
@@ -137,8 +195,8 @@
                 <span class="mdi mdi-menu"></span>
               </button>
               <div class="navbar-brand-wrapper">
-                <a class="navbar-brand brand-logo" href="index.html"><img src="../../images/logo_poloskuy1.png" alt="logo"/></a>
-                <a class="navbar-brand brand-logo-mini" href="index.html"><img src="../../images/logo_poloskuy2.png" alt="logo"/></a>
+                <a class="navbar-brand brand-logo" href="index.php"><img src="../../images/logo_poloskuy1.png" alt="logo"/></a>
+                <a class="navbar-brand brand-logo-mini" href="index.php"><img src="../../images/logo_poloskuy2.png" alt="logo"/></a>
               </div>
               <h4 class="font-weight-bold mb-0 d-none d-md-block mt-1">Welcome Home Admin</h4>
               <ul class="navbar-nav navbar-nav-right">
@@ -187,14 +245,14 @@
             <div class="col-12 grid-margin">
               <div class="card">
                 <div class="card-body">
-                  <h4 style="text-align: center; font-size: 230%;" class="card-title">EDIT BARANG</h4><br>
-                  <form class="form-sample">
+                  <h4 style="text-align: center; font-size: 230%;" class="card-title">TAMBAH BARANG</h4><br>
+                  <form class="form-sample" action="#" method="POST" enctype="multipart/form-data">
                     <div class="row">
                       <div class="col-md-6">
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">ID Produk</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" placeholder="ID Produk"/>
+                            <input type="text" class="form-control" name="id_pdk" value="<?=$id_pdk?>" placeholder="ID Produk" readonly/>
                           </div>
                         </div>
                       </div>
@@ -202,7 +260,7 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Nama Produk</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" placeholder="Nama Produk"/>
+                            <input type="text" class="form-control" name="nama_pdk" value="<?=$nama?>" placeholder="Nama Produk" required/>
                           </div>
                         </div>
                       </div>
@@ -212,7 +270,7 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Harga Produk</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" placeholder="Harga Produk"/>
+                            <input type="text" class="form-control" name="harga_pdk" value="<?=$harga?>" placeholder="Harga Produk" required/>
                           </div>
                         </div>
                       </div>
@@ -220,7 +278,7 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Stok Produk</label>
                           <div class="col-sm-9">
-                            <input type="number" class="form-control" placeholder="Stok Produk"/>
+                            <input type="number" class="form-control" name="stok_pdk" value="<?=$stok?>" placeholder="Stok Produk" required/>
                           </div>
                         </div>
                       </div>
@@ -230,7 +288,7 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Tanggal Masuk</label>
                           <div class="col-sm-9">
-                            <input type="date" class="form-control" placeholder="Tanggal Masuk"/>
+                            <input type="date" class="form-control" name="tgl_masuk" value="<?=$tgl?>" placeholder="Tanggal Masuk"/>
                           </div>
                         </div>
                       </div>
@@ -238,7 +296,7 @@
                         <div class="form-group row">
                           <label class="col-sm-3 col-form-label">Deskripsi Produk</label>
                           <div class="col-sm-9">
-                            <textarea class="form-control" id="exampleTextarea1" rows="4" placeholder="Deskripsi Produk"></textarea>
+                            <textarea class="form-control" id="exampleTextarea1" rows="4" name="deskripsi" placeholder="Deskripsi Produk" required><?=$desc?></textarea>
                           </div>
                         </div>
                       </div>
@@ -246,34 +304,33 @@
                     <div class="row">
                       <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">ID Kategori</label>
+                          <label class="col-sm-3 col-form-label">Kategori</label>
                           <div class="col-sm-9">
-                            <input type="text" class="form-control" placeholder="ID Kategori"/>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Rating</label>
-                          <div class="col-sm-9">
-                            <input type="text" class="form-control" placeholder="Rating"/>
+                            
+                            <select class="custom-select" name="kategori">
+                            <?php $lth_kat = $db->getData("kategori");
+                            foreach ($lth_kat as $key => $res) {
+                            ?>
+                              <option value="<?=$res["id_kategori"];?>" <?= (($ktgr == $res["id_kategori"] ) ? "selected" : ""); ?> > <?=$res["nama_kategori"]; ?> </option>
+                            <?php } ?>
+                            </select>
                           </div>
                         </div>
                       </div>
                     </div>
                     <div class="form-group">
                       <label>Foto Produk</label>
-                      <input type="file" name="img[]" class="file-upload-default">
+                      <input type="file" name="imgBarang" class="file-upload-default">
                       <div class="input-group col-xs-12">
                         <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Foto">
                         <span class="input-group-append">
-                          <button style="background-color: black;" class="file-upload-browse btn btn-primary" type="button">Upload</button>
+                          <button class="file-upload-browse btn btn-dark" type="button">Upload</button>
                         </span>
                       </div>
                     </div>
                     <div class="mt-3">
-                      <a class="btn btn-dark font-weight-medium auth-form-btn" href="../barang/list_barang.html">SIMPAN</a>
-                      <a class="btn btn-light font-weight-medium auth-form-btn" href="../barang/list_barang.html">Batal</a>
+                      <button class="btn btn-dark font-weight-medium auth-form-btn" type="submit" name="edit">Ubah Produk</button>
+                      <a class="btn btn-light font-weight-medium auth-form-btn" href="add_barang.php">Batal</a>
                     </div>
                     </div>
                   </form>

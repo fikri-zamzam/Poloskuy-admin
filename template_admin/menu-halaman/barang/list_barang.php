@@ -1,3 +1,8 @@
+<?php
+require("../../system/func_web.php");
+$db = new fitur();
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -28,7 +33,7 @@
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="../../index.html">
+          <a class="nav-link" href="../../index.php">
             <i class="mdi mdi-view-quilt menu-icon"></i>
             <span class="menu-title">Dashboard</span>
           </a>
@@ -47,9 +52,9 @@
           </a>
           <div class="collapse" id="ui-basic">
             <ul class="nav flex-column sub-menu">
-              <li class="nav-item"> <a class="nav-link" href="../barang/add_barang.html">Tambah</a></li>
-              <li class="nav-item"> <a class="nav-link" href="../barang/list_barang.html">Lihat</a></li>
-              <li class="nav-item"> <a class="nav-link" href="../barang/z_list_caraousel.html">Carousel</a></li>
+              <li class="nav-item"> <a class="nav-link" href="../barang/add_barang.php">Tambah</a></li>
+              <li class="nav-item"> <a class="nav-link" href="../barang/list_barang.php">Lihat</a></li>
+              <li class="nav-item"> <a class="nav-link" href="../barang/z_list_caraousel.php">Carousel</a></li>
             </ul>
           </div>
         </li>
@@ -62,9 +67,9 @@
           </a>
           <div class="collapse" id="ui-basic2">
             <ul class="nav flex-column sub-menu">
-              <li class="nav-item"> <a class="nav-link" href="../user/add_user.html">Tambah</a></li>
-              <li class="nav-item"> <a class="nav-link" href="../user/list_user.html">Lihat</a></li>
-              <li class="nav-item"> <a class="nav-link" href="../user/z_list_blacklist.html">BlackList</a></li>
+              <li class="nav-item"> <a class="nav-link" href="../user/add_user.php">Tambah</a></li>
+              <li class="nav-item"> <a class="nav-link" href="../user/list_user.php">Lihat</a></li>
+              <li class="nav-item"> <a class="nav-link" href="../user/z_list_blacklist.php">BlackList</a></li>
             </ul>
           </div>
         </li>
@@ -75,7 +80,7 @@
         </li>
 
         <li class="nav-item">
-          <a class="nav-link" href="../admin/list_admin.html">
+          <a class="nav-link" href="../admin/list_admin.php">
             <i class="mdi mdi-clipboard-account menu-icon"></i>
             <span class="menu-title">Menu Admin</span>
             <div class="badge badge-info badge-pill"></div>
@@ -90,8 +95,8 @@
           </a>
           <div class="collapse" id="ui-basic3">
             <ul class="nav flex-column sub-menu">
-              <li class="nav-item"> <a class="nav-link" href="../laporan/rcd_keuntungan.html">Record Keuntungan</a></li>
-              <li class="nav-item"> <a class="nav-link" href="../laporan/rcd_penjualan.html">Record Penjualan</a></li>
+              <li class="nav-item"> <a class="nav-link" href="../laporan/rcd_keuntungan.php">Record Keuntungan</a></li>
+              <li class="nav-item"> <a class="nav-link" href="../laporan/rcd_penjualan.php">Record Penjualan</a></li>
             </ul>
           </div>
         </li>
@@ -104,8 +109,8 @@
           </a>
           <div class="collapse" id="ui-basic4">
             <ul class="nav flex-column sub-menu">
-              <li class="nav-item"> <a class="nav-link" href="../pesanan/list_pesanan.html">Pesanan</a></li>
-              <li class="nav-item"> <a class="nav-link" href="../transaksi/list_transaksi.html">Transaksi</a></li>
+              <li class="nav-item"> <a class="nav-link" href="../pesanan/list_pesanan.php">Pesanan</a></li>
+              <li class="nav-item"> <a class="nav-link" href="../transaksi/list_transaksi.php">Transaksi</a></li>
             </ul>
           </div>
         </li>
@@ -115,7 +120,7 @@
           <span></span>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="pages/samples/login-2.html">
+          <a class="nav-link" href="pages/samples/login-2.php">
             <i class="mdi mdi mdi-logout menu-icon"></i>
             <span class="menu-title">Keluar</span>
             <div class="badge badge-info badge-pill"></div>
@@ -133,8 +138,8 @@
                 <span class="mdi mdi-menu"></span>
               </button>
               <div class="navbar-brand-wrapper">
-                <a class="navbar-brand brand-logo" href="index.html"><img src="../../images/logo_poloskuy1.png" alt="logo"/></a>
-                <a class="navbar-brand brand-logo-mini" href="index.html"><img src="../../images/logo_poloskuy2.png" alt="logo"/></a>
+                <a class="navbar-brand brand-logo" href="index.php"><img src="../../images/logo_poloskuy1.png" alt="logo"/></a>
+                <a class="navbar-brand brand-logo-mini" href="index.php"><img src="../../images/logo_poloskuy2.png" alt="logo"/></a>
               </div>
               <h4 class="font-weight-bold mb-0 d-none d-md-block mt-1">Welcome Home Admin</h4>
               <ul class="navbar-nav navbar-nav-right">
@@ -210,7 +215,7 @@
                             Deskripsi Produk
                           </th>
                           <th style="text-align: center;">
-                            ID Kategori
+                            Kategori
                           </th>
                           <th style="text-align: center;">
                             Rating
@@ -224,90 +229,55 @@
                         </tr>
                       </thead>
                       <tbody>
+                        <?php 
+                        $no = 1;
+                        $lht_Produk = $db->getData("produk","*");
+                        foreach ($lht_Produk as $key => $res) {
+                          
+                        ?>
                         <tr>
                           <td style="text-align: center;">
-                            1
+                            <?= $no; ?>
                           </td>
                           <td style="text-align: center;">
-                            P11
+                            <?= $res["id_produk"]; ?>
                           </td>
                           <td style="text-align: center;">
-                            Hoodie Jumper
-                          </td>
-                          <td>
-                            Rp. 115.000
+                            <?= $res["nama_produk"]; ?>
                           </td>
                           <td style="text-align: center;">
-                            50
+                            <?= $res["harga"]; ?>
                           </td>
                           <td style="text-align: center;">
-                            10/11/2001
-                          </td>
-                          <td>
-                            Bahan : Katun Fleece Tebel, Lembut, nyerep keringat, nyaman digunakan dan warnanya dijamin nggak pudar/luntur.
-                          </td>
-                          <td>
-                            H11
+                            <?= $res["stok"]; ?>
                           </td>
                           <td style="text-align: center;">
-                            4
+                            <?= $res["tgl_masuk"]; ?>
                           </td>
                           <td style="text-align: center;">
-                            Picture
+                            <?= $res["deskripsi"]; ?>
+                          </td>
+                          <td style="text-align: center;">
+                            <?= $res["id_kategori"] ?>
+                          </td>
+                          <td style="text-align: center;">
+                            <?= $res["rating"] ?>
+                          </td>
+                          <td style="text-align: center;">
+                            <img src="../../images/db/barang/<?= $res["img_resize"] ?>">
                           </td>
                           <td style="text-align:center;">
                             <div class="mt">
-                              <a class="btn btn-dark font-weight-medium auth-form-btn btn-icon-append btn-sm" href="../barang/edit_barang.html">
+                              <a class="btn btn-dark font-weight-medium auth-form-btn btn-icon-append btn-sm" href="edit_barang.php?id=<?=$res["id_produk"];?>">
                                 <i class="mdi mdi-pencil"></i>
                             </a><br>
-                              <br><a class="btn btn-danger font-weight-medium auth-form-btn btn-icon-append btn-sm" href="../barang/list_barang.html">
+                              <br><a class="btn btn-danger font-weight-medium auth-form-btn btn-icon-append btn-sm" href="del_barang.php?id=<?=$res["id_produk"];?>">
                                 <i class="mdi mdi-delete"></i>
                               </a>
                             </div>
                           </td>
                         </tr>
-                        <tr>
-                          <td style="text-align: center;">
-                            2
-                          </td>
-                          <td>
-                            P22
-                          </td>
-                          <td style="text-align: center;">
-                            Zipper Jumper
-                          </td>
-                          <td>
-                            Rp. 120.000
-                          </td>
-                          <td style="text-align: center;">
-                            20
-                          </td>
-                          <td style="text-align: center;">
-                            10/11/2001
-                          </td>
-                          <td>
-                            Bahan : Katun Fleece Tebel, Lembut, nyerep keringat, nyaman digunakan dan warnanya dijamin nggak pudar/luntur.
-                          </td>
-                          <td style="text-align: center;">
-                            H22
-                          </td>
-                          <td style="text-align: center;">
-                            4
-                          </td>
-                          <td style="text-align: center;">
-                            Picture
-                          </td>
-                          <td style="text-align:center;">
-                            <div class="mt">
-                              <a class="btn btn-dark font-weight-medium auth-form-btn btn-icon-append btn-sm" href="../barang/edit_barang.html">
-                                <i class="mdi mdi-pencil"></i>
-                              </a><br>
-                              <br><a class="btn btn-danger font-weight-medium auth-form-btn btn-icon-append btn-sm" href="../barang/list_barang.html">
-                                <i class="mdi mdi-delete"></i>
-                              </a>
-                            </div>
-                          </td>
-                        </tr>
+                        <?php $no++;} ?>
                       </tbody>
                     </table>
                   </div>
