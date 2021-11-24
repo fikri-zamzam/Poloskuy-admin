@@ -1,3 +1,9 @@
+<?php 
+require("../../system/func_web.php");
+$db = new fitur();
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -187,127 +193,97 @@
                   <div class="table-responsive pt-3">
                     <table class="table table-dark table-hover table-striped">
                       <thead>
-                        <tr>
-                          <th style="text-align: center;">
+                        <tr style="text-align: center;">
+                          <th>
                             No
                           </th>
-                          <th style="text-align: center;">
+                          <th>
                             ID User
                           </th>
-                          <th style="text-align: center;">
+                          <th>
                             Email
                           </th>
-                          <th style="text-align: center;">
+                          <th>
                             Username
                           </th>
-                          <th style="text-align: center;">
+                          <th>
                             Password
                           </th>
-                          <th style="text-align: center;">
-                            User Fullname
+                          <th>
+                            Nama Lengkap
                           </th>
-                          <th style="text-align: center;">
+                          <th>
                             Tanggal Lahir
                           </th>
-                          <th style="text-align: center;">
+                          <th>
                             No Telepon
                           </th>
-                          <th style="text-align: center;">
-                            Gender
+                          <th>
+                            Jenis kelamin
                           </th>
-                          <th style="text-align: center;">
+                          <th >
                             Alamat
                           </th>
-                          <th style="text-align: center;">
+                          <th>
+                            Foto
+                          </th>
+                          <th>
                           Action
                         </th>
                         </tr>
                       </thead>
                       <tbody>
+                        <?php
+                          $no = 1;
+                          $lht_User = $db->getData("user","*");
+                          foreach ($lht_User as $key => $res) {
+                        ?>
                         <tr>
                           <td style="text-align: center;">
-                            1
+                            <?= $no; ?>
                           </td>
                           <td style="text-align: center;">
-                            S11
+                            <?= $res["id_user"]; ?>
                           </td>
                           <td style="text-align: center;">
-                            dyahsafitri@gmail.com
+                            <?= $res["email"]; ?>
                           </td>
                           <td style="text-align: center;">
-                            dyah20
+                            <?= $res["username"]; ?>
                           </td>
                           <td style="text-align: center;">
-                            1234
+                            <?= $res["password"]; ?>
                           </td>
                           <td style="text-align: center;">
-                            Dyah Safitri
+                            <?= $res["user_fullname"]; ?>
                           </td>
                           <td style="text-align: center;">
-                            20/12/2001
+                            <?= $res["tgl_lahir"]; ?>
                           </td>
                           <td style="text-align: center;">
-                            081232445600
+                            <?= $res["no_telp"]; ?>
                           </td>
                           <td style="text-align: center;">
-                            Perempuan
+                            <?= (($res["gender"] == "L") ? "Laki-laki" : "Perempuan" )?>
                           </td>
                           <td style="text-align: center;">
-                            Kecamatan Yosowilangun, Lumajang
+                            <?= $res["alamat"]; ?>
+                          </td>
+                          <td style="text-align: center;">
+                            <img src="../../images/db/user/<?=$res["img_resize"]?>" alt="">
                           </td>
                           <td style="text-align:center;">
                             <div class="mt-3">
-                              <a class="btn btn-dark font-weight-medium auth-form-btn btn-icon-append btn-sm" href="../user/edit_user.php">
+                              <a class="btn btn-dark font-weight-medium auth-form-btn btn-icon-append btn-sm" href="edit_user.php?id=<?=$res["id_user"]?>">
                                 <i class="mdi mdi-pencil"></i>
                               </a><br>
-                              <br><a class="btn btn-danger font-weight-medium auth-form-btn btn-icon-append btn-sm" href="../user/z_list_blacklist.php">
+                              <br><a class="btn btn-danger font-weight-medium auth-form-btn btn-icon-append btn-sm" href="del_user.php?id=<?=$res["id_user"]?>">
                                 <i class="mdi mdi-delete"></i>
                               </a>
                             </div>
                           </td>
                         </tr>
-                        <tr>
-                          <td style="text-align: center;">
-                            2
-                          </td>
-                          <td style="text-align: center;">
-                            S22
-                          </td>
-                          <td style="text-align: center;">
-                            inge@gmail.com
-                          </td>
-                          <td style="text-align: center;">
-                            inge22
-                          </td>
-                          <td style="text-align: center;">
-                            1234
-                          </td>
-                          <td style="text-align: center;">
-                            Siti Ingefatul Komariah
-                          </td>
-                          <td style="text-align: center;">
-                            10/11/2001
-                          </td>
-                          <td style="text-align: center;">
-                            081221331441
-                          </td>
-                          <td style="text-align: center;">
-                            Perempuan
-                          </td>
-                          <td style="text-align: center;">
-                            Kecamatan Balung, Jember
-                          </td>
-                          <td style="text-align:center;">
-                            <div class="mt-3">
-                              <a class="btn btn-dark font-weight-medium auth-form-btn btn-icon-append btn-sm" href="../user/edit_user.php">
-                                <i class="mdi mdi-pencil"></i>
-                              </a><br>
-                              <br><a class="btn btn-danger font-weight-medium auth-form-btn btn-icon-append btn-sm" href="../user/z_list_blacklist.php">
-                                <i class="mdi mdi-delete"></i>
-                              </a>
-                            </div>
-                          </td>
-                        </tr>
+                          <?php $no++; } ?>
                       </tbody>
                     </table>
                   </div>

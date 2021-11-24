@@ -1,3 +1,76 @@
+<?php
+require("../../system/func_web.php");
+require("../../system/upload-oop.php");
+$db = new fitur();
+$img = new ClassUpload();
+
+$id = $_GET["id"];
+
+if(isset($_POST["edit"])){
+  $id = $db->penjernih($_POST["id_user"]);
+  $email = $db->penjernih($_POST["email"]);
+  $username = $db->penjernih($_POST["username"]);
+  $password = $db->penjernih($_POST["password"]);
+  $fullname = $db->penjernih($_POST["fullname"]);
+  $tgl    = $db->penjernih($_POST["tgl_lahir"]);
+  $telfon = $db->penjernih($_POST["no_telp"]);
+  $gender = $db->penjernih($_POST["jk"]);
+  $alamat = $db->penjernih($_POST["alamat"]);
+
+  //Upload Foto
+
+  $imgNama = $_FILES['imgUser']['name'];
+  $size    = $_FILES['imgUser']['size']; 
+  $asal    = $_FILES['imgUser']['tmp_name'];
+  $format  = pathinfo($imgNama, PATHINFO_EXTENSION);
+
+
+  $edit = $db->update('user',['id_user'=>$id,'email'=>$email,'username'=>$username,'password'=>$password,'user_fullname'=>$fullname,'tgl_lahir'=>$tgl,'no_telp'=>$telfon,'gender'=>$gender,'alamat'=>$alamat],"id_user='$id'");
+  
+  if($edit){
+  
+  $upload = (($imgNama == "") ? "aman" : $img->upFoto('user',$imgNama,$size,$asal,$format,"id_user='$id'") );
+    if($upload || $upload == "aman") {
+    ?>
+    <script>
+      alert("Selamat data user <?=$username?> berhasil di ubah");
+      location.href = "list_user.php";
+    </script>
+    <?php
+    } else if(!$upload){
+    ?>
+    <script>
+      alert("Proses Upload gagal");
+    </script>
+    <?php
+    }
+    
+  } else {
+    ?>
+    <script>
+      alert("Maaf data user <?=$username?> gagal di ubah");
+      // location.href = "list_user.php";
+    </script>
+    <?php
+  }
+    
+  
+}
+
+$ambil = $db->getData("user","*","id_user='$id'");
+foreach ($ambil as $key => $edt) {
+  $email = $edt["email"];
+  $user = $edt["username"];
+  $pass = $edt["password"];
+  $fullname = $edt["user_fullname"];
+  $tgl = $edt["tgl_lahir"];
+  $noTelp = $edt["no_telp"];
+  $jk = $edt["gender"];
+  $alamat = $edt["alamat"];
+
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -184,114 +257,138 @@
       <div class="main-panel">        
         <div class="content-wrapper">
           <div class="row">
-              <!-- REEEEEEEEEE -->
-              <div class="col-12 grid-margin stretch-card">
-                <div class="card">
-                  <div class="card-body">
-                    <h4 style="text-align: center; font-size: 230%;" class="card-title">EDIT USER</h4><br>
-                    <form class="form-sample">
-                      <div class="row">
-                        <div class="col-md-6">
+            <div class="col-12 grid-margin">
+              <div class="card">
+                <div class="card-body">
+                  <h4 style="text-align: center; font-size: 230%;" class="card-title">TAMBAH USER</h4><br>
+                  <form class="form-sample" action="#" method="POST" enctype="multipart/form-data">
+                    <div class="row">
+                      <div class="col-md-6">
                           <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Id_User</label>
                             <div class="col-sm-9">
-                              <input type="text" class="form-control" placeholder="ID User"/>
+                              <input type="text" class="form-control" placeholder="ID User" value="<?=$id?>" name="id_user" readonly/>
                             </div>
                           </div>
                         </div>
-                        <div class="col-md-6">
-                          <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Email</label>
-                            <div class="col-sm-9">
-                              <input type="email" class="form-control" placeholder="Email"/>
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Email</label>
+                          <div class="col-sm-9">
+                            <input type="email" class="form-control" placeholder="Email" value="<?=$email?>" name="email"/>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Username</label>
+                          <div class="col-sm-9">
+                            <input type="text" class="form-control" placeholder="Username" value="<?=$user?>" name="username"/>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Password</label>
+                          <div class="col-sm-9">
+                            <input type="password" class="form-control" placeholder="Password" value="<?=$pass?>" name="password"/>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">User Fullname</label>
+                          <div class="col-sm-9">
+                            <input type="text" class="form-control" placeholder="User fullname" value="<?=$fullname?>" name="fullname"/>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Tanggal Lahir</label>
+                          <div class="col-sm-9">
+                            <input type="date" class="form-control" placeholder="Tanggal Lahir" value="<?=$tgl?>" name="tgl_lahir"/>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">No Telepon</label>
+                          <div class="col-sm-9">
+                            <input type="number" class="form-control" placeholder="No Telpon" value="<?=$noTelp?>" name="no_telp"/>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Gender</label>
+                          <div class="col-sm-4">
+                            <div class="form-check">
+                              <label class="form-check-label">
+                                <input type="radio" class="form-check-input" name="jk" id="membershipRadios1" value="L" <?= (($jk == "L") ? "checked" : "") ?> >
+                                Laki-laki
+                              </label>
+                            </div>
+                          </div>
+                          <div class="col-sm-5">
+                            <div class="form-check">
+                              <label class="form-check-label">
+                                <input type="radio" class="form-check-input" name="jk" id="membershipRadios2" value="P" value="L" <?= (($jk == "P") ? "checked" : "") ?> > 
+                                Perempuan
+                              </label>
                             </div>
                           </div>
                         </div>
                       </div>
-                      <div class="row">
-                        <div class="col-md-6">
-                          <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Username</label>
-                            <div class="col-sm-9">
-                              <input type="text" class="form-control" placeholder="Username"/>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Password</label>
-                            <div class="col-sm-9">
-                              <input type="password" class="form-control" placeholder="Password"/>
-                            </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <div class="form-group row">
+                          <label class="col-sm-3 col-form-label">Alamat</label>
+                          <div class="col-sm-9">
+                            <textarea class="form-control" id="exampleTextarea1" rows="4"  placeholder="Alamat" name="alamat"><?=$alamat?></textarea>
                           </div>
                         </div>
                       </div>
-                      <div class="row">
-                        <div class="col-md-6">
-                          <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">User Fullname</label>
-                            <div class="col-sm-9">
-                              <input type="text" class="form-control" placeholder="User_fullname"/>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Tanggal Lahir</label>
-                            <div class="col-sm-9">
-                              <input type="date" class="form-control" placeholder="Tanggal Lahir"/>
-                            </div>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                        <label>Foto User</label>
+                        <input type="file" name="imgUser" class="file-upload-default" accept=".jpg,.png" >
+                          <div class="input-group col-xs-12">
+                            <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Foto">
+                            <span class="input-group-append">
+                              <button class="file-upload-browse btn btn-dark" type="button">Upload</button>
+                            </span>
                           </div>
                         </div>
                       </div>
-                      <div class="row">
-                        <div class="col-md-6">
-                          <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">No Telepon</label>
-                            <div class="col-sm-9">
-                              <input type="text" class="form-control" placeholder="Username"/>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Gender</label>
-                            <div class="col-sm-9">
-                              <input type="text" class="form-control" placeholder="Password"/>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-md-6">
-                          <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Alamat</label>
-                            <div class="col-sm-9">
-                              <textarea class="form-control" id="exampleTextarea1" rows="4"  placeholder="Alamat"></textarea>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="mt-3">
-                        <a class="btn btn-dark font-weight-medium auth-form-btn" href="../user/list_user.php">SIMPAN</a>
-                        <a class="btn btn-light font-weight-medium auth-form-btn" href="../user/list_user.php">Batal</a>
-                      </div>
-                    </form>
-                  </div>
+                    </div>
+                    <div class="mt-3">
+                      <button class="btn btn-dark font-weight-medium auth-form-btn" type="submit" name="edit">Edit User</button>
+                      <a class="btn btn-light font-weight-medium auth-form-btn" href="../user/add_user.php">Batal</a>
+                    </div>
+                  </form>
                 </div>
               </div>
-            <!-- REEEEEEEEEEEEEEE -->
+            </div>
           </div>
-        </div>
-        <!-- content-wrapper ends -->
+          <!-- content-wrapper ends -->
         <!-- partial:../../partials/_footer.html -->
         <footer class="footer">
           <div class="d-sm-flex justify-content-center justify-content-sm-between">
             <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © poloskuy.com 2021</span>
           </div>
     </footer>
-        <!-- partial -->
+    <!-- partial -->
       </div>
+    <!-- page-body-wrapper ends -->
+  </div>
       <!-- main-panel ends -->
     </div>
     <!-- page-body-wrapper ends -->
