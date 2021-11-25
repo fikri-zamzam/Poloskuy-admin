@@ -1,3 +1,55 @@
+<?php
+require("../../system/func_web.php");
+require("../../system/upload-oop.php");
+$db = new fitur();
+$img = new ClassUpload();
+
+if(isset($_POST["tambah"])){
+  $id = $db->buatID("id_admin");
+  $name = $db->penjernih($_POST["nama_admin"]);
+  $email = $db->penjernih($_POST["email"]);
+  $user = $db->penjernih($_POST["username"]);
+  $pass = $db->penjernih($_POST["password"]);
+  $level = $db->penjernih($_POST["level"]);
+
+  //  Upload foto
+  $imgNama = $_FILES['imgAdmin']['name'];
+  $size    = $_FILES['imgAdmin']['size'];
+  $asal    = $_FILES['imgAdmin']['tmp_name'];
+  $format  = pathinfo($imgNama, PATHINFO_EXTENSION);
+
+  $tambah = $db->insert('admin',['id_admin'=>$id,'nama_admin'=>$name,'email'=>$email,'username'=>$user,'password'=>$pass,'id_level'=>$level]);
+
+  if ($tambah){
+    $upload = $img->upFoto('admin',$imgNama,$size,$asal,$format,"id_admin='$id'");
+      if($upload){
+      ?>
+        <script>
+          alert("Selamat <?=$name?> berhasil dimasukkan");
+          location.href = "list_admin.php";
+        </script>
+      <?php
+      }else {
+
+      ?>
+        <script>
+          alert("Maaf Upload foto <?=$name?> gagal dimasukkan");
+        </script>
+      <?php
+
+      }
+  } else {
+    ?>
+    <script>
+      alert("Maaf <?=$name?> Gagal dimasukkan");
+      
+    </script>
+    <?php
+  }
+
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -190,40 +242,21 @@
               <div class="card">
                 <div class="card-body">
                   <h4 class="card-title" style="text-align: center; font-size: 230%; ">REGISTER</h4>
-                  <form class="pt-3">
-                    <form class="forms-sample">
+                  <form class="forms-sample" action="#" method="POST" enctype="multipart/form-data">
                       <div class="row">
-                        <div class="col-md-6">
-                          <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">ID Admin</label>
-                            <div class="col-sm-9">
-                              <input type="text" class="form-control" placeholder="ID Admin"/>
-                            </div>
-                          </div>
-                        </div>
                         <div class="col-md-6">
                           <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Nama Admin</label>
                             <div class="col-sm-9">
-                              <input type="text" class="form-control" placeholder="Nama Admin"/>
+                              <input type="text" class="form-control" placeholder="Nama Admin" name="nama_admin"/>
                             </div>
                           </div>
                         </div>
-                      </div>
-                      <div class="row">
                         <div class="col-md-6">
                           <div class="form-group row">
                             <label class="col-sm-3 col-form-label">Email</label>
                             <div class="col-sm-9">
-                              <input type="email" class="form-control" placeholder="Email"/>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Username</label>
-                            <div class="col-sm-9">
-                              <input type="text" class="form-control" placeholder="Username"/>
+                              <input type="email" class="form-control" placeholder="Email" name="email"/>
                             </div>
                           </div>
                         </div>
@@ -231,24 +264,50 @@
                       <div class="row">
                         <div class="col-md-6">
                           <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">Password</label>
+                            <label class="col-sm-3 col-form-label">Username</label>
                             <div class="col-sm-9">
-                              <input type="password" class="form-control" placeholder="Password"/>
+                              <input type="text" class="form-control" placeholder="Username" name="username"/>
                             </div>
                           </div>
                         </div>
                         <div class="col-md-6">
                           <div class="form-group row">
-                            <label class="col-sm-3 col-form-label">ID Level</label>
+                            <label class="col-sm-3 col-form-label">Password</label>
                             <div class="col-sm-9">
-                              <input type="text" class="form-control" placeholder="ID Level"/>
+                              <input type="password" class="form-control" placeholder="Password" name="password"/>
                             </div>
                           </div>
                         </div>
                       </div>
-
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group row">
+                          <label class="col-sm-4 ">Jabatan</label>
+                            <select class="custom-select col-sm-7" name="level">
+                              <?php 
+                              $level = $db->getData("level","*");
+                              foreach ($level as $key => $res) {
+                              ?>
+                              <option value="<?=$res["id_level"]?>"><?=$res["nama_level"]?></option>
+                              <?php } ?>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                        <div class="form-group">
+                        
+                        <input type="file" name="imgAdmin" class="file-upload-default" accept=".jpg,.png" >
+                          <div class="input-group col-xs-12">
+                            <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Foto">
+                            <span class="input-group-append">
+                              <button class="file-upload-browse btn btn-dark" type="button">Upload</button>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      </div>
                     <div class="mt-3" style="padding: 0px 270px;">
-                      <a class="btn btn-info btn-rounded btn-fw font-weight-medium auth-form-btn" style="padding: 15px 200px; font-size: 15px;" href="../admin/list_admin.html">SIGN UP</a>
+                      <button class="btn btn-info btn-rounded btn-fw font-weight-medium auth-form-btn" style="padding: 15px 200px; font-size: 15px;" type="submit" name="tambah">SIGN UP</button>
                     </div>
                   </form>
                 </div>

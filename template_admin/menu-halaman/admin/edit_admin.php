@@ -1,3 +1,65 @@
+<?php
+require("../../system/func_web.php");
+require("../../system/upload-oop.php");
+$db = new fitur();
+$img = new ClassUpload();
+
+$id = $_GET["id"];
+if(isset($_POST["edit"])){
+  $id = $db->penjernih($_POST["id_admin"]);
+  $name = $db->penjernih($_POST["nama_admin"]);
+  $email = $db->penjernih($_POST["email"]);
+  $user = $db->penjernih($_POST["username"]);
+  $pass = $db->penjernih($_POST["password"]);
+  $level = $db->penjernih($_POST["level"]);
+
+  //  Upload foto
+  $imgNama = $_FILES['imgAdmin']['name'];
+  $size    = $_FILES['imgAdmin']['size'];
+  $asal    = $_FILES['imgAdmin']['tmp_name'];
+  $format  = pathinfo($imgNama, PATHINFO_EXTENSION);
+
+  $edit = $db->update('admin',['id_admin'=>$id,'nama_admin'=>$name,'email'=>$email,'username'=>$user,'password'=>$pass,'id_level'=>$level],"id_admin='$id'");
+
+  if($edit){
+  
+  $upload = (($imgNama == "") ? "aman" : $img->upFoto('admin',$imgNama,$size,$asal,$format,"id_admin='$id'") );
+    if($upload || $upload == "aman") {
+    ?>
+    <script>
+      alert("Selamat data Admin <?=$name?> berhasil di ubah");
+      location.href = "list_admin.php";
+    </script>
+    <?php
+    } else if(!$upload){
+    ?>
+    <script>
+      alert("Proses Upload gagal");
+    </script>
+    <?php
+    }
+    
+  } else {
+    ?>
+    <script>
+      alert("Maaf data Admin <?=$name?> gagal di ubah");
+    </script>
+    <?php
+  }
+
+}
+
+$ambil = $db->getData("admin","*","id_admin='$id'");
+foreach ($ambil as $key => $edt) {
+  $name = $edt["nama_admin"];
+  $email = $edt["email"];
+  $user = $edt["username"];
+  $pass = $edt["password"];
+  $level = $edt["id_level"];
+
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,7 +86,7 @@
     
     <nav class="sidebar sidebar-offcanvas" id="sidebar">
       <ul class="nav">
-        
+
         <li class="nav-item sidebar-category">
           <p>Navigation</p>
           <span></span>
@@ -168,14 +230,15 @@
                 </a>
               </div>
             </li>
-            <li class="nav-item">
-              <ul class="navbar-nav mr-lg-2">
-                <b><p style="color:black; font-family:sans-serif;" >Date : <span id="tanggalwaktu"></span></p></b>
-                <script>
-                var dt = new Date();
-                document.getElementById("tanggalwaktu").innerHTML = (("0"+dt.getDate()).slice(-2)) +"."+ (("0"+(dt.getMonth()+1)).slice(-2)) +"."+ (dt.getFullYear()) +" "+ (("0"+dt.getHours()).slice(-2)) +":"+ (("0"+dt.getMinutes()).slice(-2));
-                </script>
-                </ul>
+                <li class="nav-item">
+                  <ul class="navbar-nav mr-lg-2">
+                    <b><p style="color:black; font-family:sans-serif;" >Date : <span id="tanggalwaktu"></span></p></b>
+                    <script>
+                    var dt = new Date();
+                    document.getElementById("tanggalwaktu").innerHTML = (("0"+dt.getDate()).slice(-2)) +"."+ (("0"+(dt.getMonth()+1)).slice(-2)) +"."+ (dt.getFullYear()) +" "+ (("0"+dt.getHours()).slice(-2)) +":"+ (("0"+dt.getMinutes()).slice(-2));
+                    </script>
+                    </ul>
+                </li>
             </li>
           </ul>
         </div>
@@ -188,65 +251,83 @@
             <div class="col-12 grid-margin stretch-card">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title" style="text-align: center; font-size: 230%;">EDIT ADMIN</h4>
-                  <form class="forms-sample">
-                    <div class="row">
-                      <div class="col-md-6">
+                  <h4 class="card-title" style="text-align: center; font-size: 230%; ">REGISTER</h4>
+                  <form class="forms-sample" action="#" method="POST" enctype="multipart/form-data">
+                      <div class="row">
+                        <div class="col-md-6">
                         <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">ID Admin</label>
-                          <div class="col-sm-9">
-                            <input type="text" class="form-control" placeholder="ID Admin"/>
+                            <label class="col-sm-3 col-form-label">ID Admin</label>
+                            <div class="col-sm-9">
+                              <input type="text" class="form-control" placeholder="ID Admin" value="<?=$id?>" name="id_admin" readonly/>
+                            </div>
                           </div>
                         </div>
                       </div>
-                      <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Nama Admin</label>
-                          <div class="col-sm-9">
-                            <input type="text" class="form-control" placeholder="Nama Admin"/>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Nama Admin</label>
+                            <div class="col-sm-9">
+                              <input type="text" class="form-control" placeholder="Nama Admin" value="<?=$name?>" name="nama_admin"/>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Email</label>
+                            <div class="col-sm-9">
+                              <input type="email" class="form-control" placeholder="Email" value="<?=$email?>" name="email"/>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Email</label>
-                          <div class="col-sm-9">
-                            <input type="email" class="form-control" placeholder="Email"/>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Username</label>
+                            <div class="col-sm-9">
+                              <input type="text" class="form-control" placeholder="Username" value="<?=$user?>" name="username"/>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                          <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Password</label>
+                            <div class="col-sm-9">
+                              <input type="password" class="form-control" placeholder="Password" value="<?=$pass?>" name="password"/>
+                            </div>
                           </div>
                         </div>
                       </div>
-                      <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Username</label>
-                          <div class="col-sm-9">
-                            <input type="text" class="form-control" placeholder="Username"/>
+                      <div class="row">
+                        <div class="col-md-6">
+                          <div class="form-group row">
+                          <label class="col-sm-4 ">Jabatan</label>
+                            <select class="custom-select col-sm-7" name="level">
+                              <?php 
+                              $level = $db->getData("level","*");
+                              foreach ($level as $key => $res) {
+                              ?>
+                              <option value="<?=$res["id_level"];?>" <?php if($res["id_level"] == $edt["id_level"] ) {echo "selected";}  ?> ><?=$res["nama_level"]?></option>
+                              <?php } ?>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                        <div class="form-group">
+                        
+                        <input type="file" name="imgAdmin" class="file-upload-default" accept=".jpg,.png" >
+                          <div class="input-group col-xs-12">
+                            <input type="text" class="form-control file-upload-info" disabled placeholder="Upload Foto">
+                            <span class="input-group-append">
+                              <button class="file-upload-browse btn btn-dark" type="button">Upload</button>
+                            </span>
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">Password</label>
-                          <div class="col-sm-9">
-                            <input type="password" class="form-control" placeholder="Password"/>
-                          </div>
-                        </div>
                       </div>
-                      <div class="col-md-6">
-                        <div class="form-group row">
-                          <label class="col-sm-3 col-form-label">ID Level</label>
-                          <div class="col-sm-9">
-                            <input type="text" class="form-control" placeholder="ID Level"/>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="mt-3">
-                      <a class="btn btn-dark font-weight-medium auth-form-btn" href="../admin/list_admin.php">SIMPAN</a>
-                      <a class="btn btn-light font-weight-medium auth-form-btn" href="../admin/list_admin.php">Batal</a>
+                    <div class="mt-3" style="padding: 0px 270px;">
+                      <button class="btn btn-info btn-rounded btn-fw font-weight-medium auth-form-btn" style="padding: 15px 200px; font-size: 15px;" type="submit" name="edit">SIGN UP</button>
                     </div>
                   </form>
                 </div>
@@ -258,15 +339,10 @@
         <!-- content-wrapper ends -->
         <!-- partial:../../partials/_footer.html -->
         <footer class="footer">
-          <div class="card">
-            <div class="card-body">
-              <div class="d-sm-flex justify-content-center justify-content-sm-between">
-                <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © bootstrapdash.com 2020</span>
-                <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"> Free <a href="https://www.bootstrapdash.com/" target="_blank">Bootstrap dashboard templates</a> from Bootstrapdash.com</span>
-              </div>
-            </div>
+          <div class="d-sm-flex justify-content-center justify-content-sm-between">
+            <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © poloskuy.com 2021</span>
           </div>
-        </footer>
+    </footer>
         <!-- partial -->
       </div>
       <!-- main-panel ends -->

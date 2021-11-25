@@ -1,3 +1,8 @@
+<?php
+require("../../system/func_web.php");
+$db = new fitur();
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -190,67 +195,79 @@
                   <div class="table-responsive pt-3">
                     <table class="table table-dark table-hover table-striped">
                       <thead>
-                        <tr>
-                          <th style="text-align: center;">
+                        <tr style="text-align: center;">
+                          <th>
                             No
                           </th>
-                          <th style="text-align: center;">
+                          <th>
                             ID Admin
                           </th>
-                          <th style="text-align: center;">
+                          <th>
                             Nama Admin
                           </th>
-                          <th style="text-align: center;">
+                          <th>
                             Email
                           </th>
-                          <th style="text-align: center;">
+                          <th>
                             Username
                           </th>
-                          <th style="text-align: center;">
+                          <th>
                             Password
                           </th>
-                          <th style="text-align: center;">
-                            ID Level
+                          <th>
+                            Level
                           </th>
-                          <th style="text-align: center;">
+                          <th>
+                            Foto
+                          </th>
+                          <th>
                             Action
                           </th>
                         </tr>
                       </thead>
                       <tbody>
+                        <?php
+                          $no = 1;
+                          $lht_Admin = $db->getData("admin","*");
+                          foreach ($lht_Admin as $key => $res) {
+                        ?>
                         <tr>
                           <td style="text-align: center;">
-                            1
+                            <?=$no?>
                           </td>
                           <td style="text-align: center;">
-                            A111
+                            <?=$res["id_admin"]?>
                           </td>
                           <td>
-                            Muhammad Akbar Rayyan
+                            <?=$res["nama_admin"]?>
                           </td>
                           <td style="text-align: center;">
-                            akbar@gmail.com
+                            <?=$res["email"]?>
                           </td>
                           <td style="text-align: center;">
-                            akbarray
+                            <?=$res["username"]?>
                           </td>
                           <td style="text-align: center;">
-                            12345
+                            <?=$res["password"]?>
                           </td>
                           <td style="text-align: center;">
-                            Admin
+                            <?=$res["id_level"]?>
+                          </td>
+                          <td style="text-align: center;">
+                            <img src="../../images/db/admin/<?=$res["img_resize"]?>" alt="">
                           </td>
                           <td style="text-align: center;">
                             <div class="mt">
-                              <a class="btn btn-dark font-weight-medium auth-form-btn btn-icon-append btn-sm" href="../admin/edit_admin.php">
+                              <a class="btn btn-dark font-weight-medium auth-form-btn btn-icon-append btn-sm" href="edit_admin.php?id=<?=$res["id_admin"]?>">
                                 <i class="mdi mdi-pencil"></i>
                             </a><br>
-                              <br><a class="btn btn-danger font-weight-medium auth-form-btn btn-icon-append btn-sm" href="../admin/list_admin.php">
+                              <br><a class="btn btn-danger font-weight-medium auth-form-btn btn-icon-append btn-sm" href="del_admin.php?id=<?=$res["id_admin"]?>">
                                 <i class="mdi mdi-delete"></i>
                               </a>
                             </div>
                         </td>
                         </tr>
+                        <?php $no++;}?>
                       </tbody>
                     </table>
                   </div>
