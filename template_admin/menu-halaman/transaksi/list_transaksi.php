@@ -1,6 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<?php
+session_start();
+if (!isset($_SESSION['id_admin'])) {
+  $_SESSION['msg'] = 'anda harus login untuk mengakses halaman ini';
+  header('Location: ../navigasi/login.php');
+}
+  $sysId    = $_SESSION["id_admin"];
+  $sysEmail = $_SESSION["email"];
+  $sysUser  = $_SESSION["username"];
+  $sysFname = $_SESSION["fullname"];
+  $sysFoto  = $_SESSION["foto"];
+?>
+
 <head>
   <!-- Required meta tags -->
   <meta charset="utf-8">
@@ -115,7 +128,7 @@
           <span></span>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="pages/samples/login-2.php">
+          <a class="nav-link" href="../../navigasi/logout.php">
             <i class="mdi mdi mdi-logout menu-icon"></i>
             <span class="menu-title">Keluar</span>
             <div class="badge badge-info badge-pill"></div>
@@ -136,7 +149,7 @@
                 <a class="navbar-brand brand-logo" href="index.php"><img src="../../images/logo_poloskuy1.png" alt="logo"/></a>
                 <a class="navbar-brand brand-logo-mini" href="index.php"><img src="../../images/logo_poloskuy2.png" alt="logo"/></a>
               </div>
-              <h4 class="font-weight-bold mb-0 d-none d-md-block mt-1">Welcome Home Admin</h4>
+              <h4 class="font-weight-bold mb-0 d-none d-md-block mt-1">Welcome Home Admin <?=$sysUser?></h4>
               <ul class="navbar-nav navbar-nav-right">
               </ul>
               <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
@@ -154,11 +167,11 @@
               <ul class="navbar-nav navbar-nav-right">
                 <li class="nav-item nav-profile dropdown">
                   <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-                    <img src="../../images/faces/face_admin.jpg" alt="profile"/>
-                    <span class="nav-profile-name">Muhammad Akbar Rayyan</span>
+                    <img src="../../images/db/admin/<?=$sysFoto?>" alt="profile"/>
+                    <span class="nav-profile-name"><?=$sysFname?></span>
                   </a>
                   <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="profileDropdown">
-                    <a class="dropdown-item">
+                    <a href="../../navigasi/logout.php" class="dropdown-item">
                       <i class="mdi mdi-logout text-primary"></i>
                       Logout
                     </a>
